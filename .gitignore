@@ -1,0 +1,21 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Temporary artifacts
+*.log
+*.tmp
+.cache/
+
+# Node (in case tooling is added later)
+node_modules/
+
+# Local private files: never published
+*.local.md
+registry.yaml
+.env
+.env.*
