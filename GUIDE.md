@@ -1,20 +1,20 @@
-# GUIDE — How Seraph Harness Core works (read this first)
+# GUIDE — How the harness core works (read this first)
 
-One page: what this is, the model, the vocabulary, and how to put it to work.
+What this is, the model, the vocabulary, and how to put it to work.
 
 ## What this is
 
 A harness for working with AI agents in **any** discipline — software, documents,
-research, operations. The agent produces; the harness makes sure what it produces is
-verifiable, recoverable and safe to hand to the world. Guiding idea: **you standardize
+research, operations. The agent produces; the harness defines how to verify, record
+and review its output before publication. Guiding idea: **you standardize
 the contract (the verbs), not the tools** — that's why the same system governs a
 codebase, a report pipeline, or a back-office.
 
 ## The model in eight lines
 
 1. **Guides** direct the agent before it acts; **sensors** correct it after. You need both.
-2. Whatever *enforces* quality is **deterministic**. A sensor that blocks is a
-   guarantee; a reviewing agent is a hope. **AI is never a gate.**
+2. Automated blocking checks are **deterministic** and certify only their declared
+   criteria. AI review advises; human approval remains a separate requirement.
 3. **The agent produces and records. Publishing is human** — sending, deploying,
    paying, signing. The **guard** is the explicit list of always-human actions.
 4. Memory lives in the **workspace**, not the chat: any new session reads the **STATE
@@ -89,6 +89,11 @@ By hand:
 5. First work unit from `templates/work-unit.md` (suggested: `logbooks/<unit>.md`,
    closed units archived in `logbooks/closed/`).
 
+For a trial, manual checks are enough to exercise the protocol; say they are manual.
+Record the copied revision and active controls in `templates/adoption-record.md`.
+Capture check results against the actual output version with
+`templates/verification-record.md`. A runtime adapter requires its own activation tests.
+
 ## Create a pack for a new discipline
 
 Instantiate [templates/discipline-contract.md](templates/discipline-contract.md):
@@ -114,5 +119,6 @@ criteria, domain modeling): the layer you build on top of the harness.
 | Topologies, pods, consensus, dispatch | [doctrine/05-topologies-and-dispatch.md](doctrine/05-topologies-and-dispatch.md) |
 | Multi-actor: ownership, boundary contracts, leases | [doctrine/06-multi-actor.md](doctrine/06-multi-actor.md) |
 | Organizational memory: the catalog | [doctrine/07-organizational-memory.md](doctrine/07-organizational-memory.md) |
+| Portability, safe updates and reduced-capability runs | [doctrine/08-portability-and-maintenance.md](doctrine/08-portability-and-maintenance.md) |
 | The software discipline as a worked case | [cases/software.md](cases/software.md) |
-| An executable substrate (git + agent hooks) | [reference/git-claude-code/README.md](reference/git-claude-code/README.md) |
+| Adapter design (git + agent hooks) | [reference/git-claude-code/README.md](reference/git-claude-code/README.md) |

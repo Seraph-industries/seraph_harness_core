@@ -1,200 +1,81 @@
-# Reference substrate: git + Claude Code hooks
+# Reference adapter: versioned files and agent lifecycle controls
 
-This is ONE reference implementation, not a requirement: **the core depends on neither
-git nor Claude Code**. It shows how a concrete substrate turns the protocol into something
-that enforces itself. If your agent has no hooks, the rules are exactly the same: it
-follows them manually by reading `templates/AGENTS.md`.
+This directory retains its historical name for existing links. It describes how an
+adapter could implement the core with Git and an agent runtime such as Claude Code or
+Codex. It supplies no executable hooks or ready-to-install configuration. Consult the
+chosen runtime's current official documentation before implementing an adapter.
 
-The snippets are illustrative, not installable: take the idea, write your own.
+## Record and resume
 
-## The basic mapping
+Git commits can implement immutable progress records; commit IDs identify checkpoints.
+Other versioning systems can provide the same properties. Keep canonical state and
+logbooks with the workspace. A multi-actor workspace has one owner per state stream;
+its consolidated dashboard is a generated view, not another editable source.
 
-- **record** = `git commit`; **checkpoint** = hash of the last valid commit.
-- **publish** = push / merge / deploy — and that is exactly what the guard blocks.
-- STATE and the logbooks live in the repo, versioned alongside the output. With more
-  than one actor, state splits into one file per stream (suggested: `state/<stream>.md`
-  plus a coordinator-owned `state/project.md`), and the **operator handle** comes from
-  git config — every hook reads it:
+Use an explicit operator identity for owner-scoped closure. A missing or unknown owner
+is a configuration error, not permission to skip all state checks. Start from the root
+where the constitution lives; verify that the runtime actually loads it. If an entry
+file is necessary, it should reference canonical rules rather than duplicate them.
 
-```bash
-ME="$(git config workspace.handle)"   # the short identity every record carries
-```
+## Map the lifecycle explicitly
 
-## The four hooks
+1. **Session start:** load state and the active logbook; distinguish clean PAUSED resume
+   from suspected interruption. Check ownership and whether another session is active
+   before declaring it dead. Show absent controls and their manual replacements.
+2. **Before an action:** inspect the actual requested operation and every target the
+   adapter supports. Apply the contract's reserved-action list and protect control
+   files. Account for resolved paths, moves and malformed inputs. Shell-text matching
+   alone is not complete action coverage.
+3. **After an edit:** run appropriate cheap checks on the actual changed artifact.
+   Use installed, declared tooling. A formatter should not unexpectedly install a
+   dependency. Scope warnings must reach the user or agent, not just a hidden log.
+4. **Session close:** validate the actor's state and progress records. A PAUSED session
+   can preserve red output checks; CLOSED requires full unit verification. Do not
+   convert an ordinary failed check into a successful exit through another runner.
+5. **Delegation, if supported:** apply role policy, execution limits and run-specific
+   degradation records. State gaps explicitly if the adapter cannot observe or block
+   launches. A parent's controls are not assumed to cover a delegate automatically.
 
-Claude Code lets you attach commands to events of the agent's cycle. Four are enough:
+Each runtime has its own event payloads and blocking-result conventions. Derive adapters
+from shared policy and validate generated configuration and event handling. An
+illustrative list of event names is not an installable schema.
 
-| Event | What it implements from the core |
-|---|---|
-| SessionStart | continuity: injects state, flags recovery or a clean PAUSED resume, checks freshness, says what is not armed |
-| PreToolUse | the guard: blocks the human-only actions |
-| PostToolUse | while-producing quality-left: a cheap sensor per touched file, plus the advisory scope check |
-| Stop | closure: no finishing without verifying and closing YOUR state honestly |
+## Prove activation in a disposable workspace
 
-```json
-{ "hooks": {
-    "SessionStart": ["print state + freshness + what is not armed"],
-    "PreToolUse":   ["matcher: commands → the discipline's guard"],
-    "PostToolUse":  ["matcher: writes → sensor on the touched file",
-                     "matcher: writes → scope check (warn only)"],
-    "Stop":         ["verify what changed + owner-scoped close gate"] } }
-```
+Use synthetic documents or datasets and no publication destination. Record the tested
+runtime version and policy revision in the adoption record. With the runtime actually
+running, demonstrate:
 
-### SessionStart — the agent starts with memory
+- A permitted output edit succeeds.
+- A protected dummy control edit is denied through a named supported tool.
+- A deliberately failed completion check blocks completion, then succeeds after the
+  output is repaired without altering the check.
+- A truthful PAUSED checkpoint remains possible with unfinished output.
+- Malformed state, unavailable dependencies and incomplete reports cannot certify
+  completion; parallel actors do not overwrite or borrow each other's records.
 
-The hook's stdout is added to the context: the agent opens knowing where it stands,
-without re-reading the whole workspace.
+Preserve observed tool and check results. A model saying "blocked" is insufficient;
+an authentication failure before tool execution does not test the guard. Record
+unexercised paths separately. Repeat relevant pilots when the runtime or adapter changes.
 
-```bash
-cat state/*.md          # project state first, then every stream (single-actor: STATE.md)
-if grep -q "^STATE: IN_PROGRESS" "$MY_STATE"; then
-  echo "WARNING: the previous session died. Run the recovery protocol"
-  echo "before producing anything."
-  git status --short; git log --oneline -3   # the workspace's reality, for reconciliation
-elif grep -q "^STATE: PAUSED" "$MY_STATE"; then
-  echo "PAUSED: clean mid-unit checkpoint. Read 'what's next' and resume — no recovery."
-fi
-```
+## Boundaries and update ownership
 
-Two more duties ride the same hook — **freshness** and **degradation honesty**:
+Local controls sharing the agent's account are not an isolation boundary against that
+account. Server restrictions strengthen selected actions only when configured with the
+necessary permissions and bypass policy. A server cannot distinguish an agent from a
+human merely because both use the same credentials.
 
-```bash
-# Freshness: compare the workspace's markers against the published versions.
-# Offer the sync, never auto-apply; unreachable source = silent skip, not an error.
-[ "$(cat .harness-version)" != "$latest_method" ]   && echo "workspace behind the method — offer the update"
-[ "$(cat .catalog-version)" != "$latest_catalog" ]  && echo "catalog behind — offer the sync"
+Separate baseline controls from workspace customizations. Compare old baseline, new
+baseline and local work before updates; validate the result before stamping completion.
+List remaining partial changes on failure. Match workspaces by their declared identity,
+not one particular filesystem representation of a checkout.
 
-# Degradation honesty: a layer that is absent says so at the door, not mid-flight.
-command -v "$FORMATTER" >/dev/null || echo "NOTE: format sensor NOT armed on this machine"
-```
+Concurrent journals need explicit conflict review: concatenation may preserve both
+texts while duplicating or contradicting decisions. Approval records require exact
+scope and run identity; technical access control must protect approval authority if
+that is claimed as enforced.
 
-The same etiquette applies to any control missing a prerequisite: it announces that
-verification is deferred to the layer that covers it (for signatures, the server side)
-and how to enable it locally — it never fakes a verdict in either direction.
-
-### PreToolUse — the guard
-
-Runs before each agent command; exiting with an error = the command does not execute. The
-pattern list is the discipline's guard (for software: `cases/software.md`).
-
-```bash
-has 'git push'                        && block "push: a human publishes"
-has 'git merge|git rebase'            && block "integrating is human"
-has 'reset --hard|rm -rf'             && block "destructive deletion"
-has '\.env'                           && block "credentials: the human handles them"
-
-# Live system: a marker in the workspace hardens the guard
-if grep -q "^Live system: YES" STATE.md; then
-  has 'DROP TABLE|TRUNCATE|DELETE FROM' && block "live data"
-  has 'migrate deploy|mass upgrade'     && block "a human applies this, with a written rollback"
-fi
-```
-
-**Test the red path.** A guard that has never blocked is a hypothesis, not a control.
-After installing it, feed it a known-blocked command and keep the proof:
-
-```bash
-echo 'git push' | bash .claude/guard.sh
-[ $? -eq 2 ] || { echo "GUARD NOT ARMED — fix before working" >&2; exit 1; }
-```
-
-### PostToolUse — while-producing sensors
-
-After every write, the cheapest sensor runs on that file. The error gets fixed seconds
-after it is born, not at integration: this is the first link of the quality-left chain
-(`doctrine/01-control-model.md`).
-
-```bash
-format "$TOUCHED_FILE"   # or the fast check your discipline has
-```
-
-The second command on the same event is the **scope check** — advisory by design,
-because territory prediction is imperfect: the remedy is a recorded widening, not a block.
-
-```bash
-f="$TOUCHED_FILE"
-case "$f" in .claude/*|AGENTS.md|.gitattributes)
-  echo "⚠ control layer ($f): not agent territory — report the defect, do not patch it" >&2
-  exit 0;;
-esac
-scope="$(grep -m1 '^Scope:' "$MY_STATE" | cut -d: -f2-)"
-for g in $scope; do case "$f" in $g) exit 0;; esac; done
-echo "⚠ '$f' is outside the declared scope — if intentional, widen Scope and record why in the logbook" >&2
-exit 0   # warn, never block
-```
-
-### Stop — no finishing without closing
-
-Before letting the agent finish: the fast verbs on what changed, and YOUR state closed
-honestly. Exiting with an error = the agent keeps working until it complies. The gate is
-**owner-scoped**: foreign state informs, it never blocks you.
-
-```bash
-verify_what_changed || exit 2
-ME="$(git config workspace.handle)"
-for f in state/*.md; do                          # single-actor: the same check on STATE.md
-  grep -q "^Owner: $ME" "$f" || continue         # not yours → at most an info line
-  grep -q "^STATE: IN_PROGRESS" "$f" && {
-    echo "✗ $(basename "$f") is yours and still IN_PROGRESS: set CLOSED (unit finished)" >&2
-    echo "  or PAUSED (mid-unit — write the checkpoint and the honest verb status first)." >&2
-    exit 2; }
-done
-# Form blocks; bad news never blocks: a malformed record (an unparseable state file, a
-# finding that fails schema validation) also exits 2 here. Held leases, pending work and
-# red detections only PRINT — a gate that punishes honesty teaches the agent to hide.
-```
-
-## More than one actor on the same repo
-
-- One state file per stream kills state conflicts by construction; any consolidated view
-  is generated and gitignored, never hand-edited.
-- Logbooks are append-only, so let git concatenate on conflict:
-
-```gitattributes
-# On conflict, keep BOTH sides. Only for append-only records — never for the output.
-logbooks/*.md merge=union
-```
-
-- A `Lease:` line travels with a normal commit + push: pull before acquiring, so leases
-  taken on other machines are visible. A live foreign lease means talk to its owner; a
-  dead session's lease is orphaned, and the human overrides it.
-- An **evidence branch** proves a gate blocks: commit a deliberately bad artifact on a
-  short-lived branch, capture the red CI run's URL in the logbook, close the PR without
-  merging, delete the branch. The proof outlives the instrument.
-- The platform closes the loop: CODEOWNERS + required reviews give the boundary contract
-  its all-consumer approval; branch protection means even a dodged local guard cannot
-  push or merge; a merge queue — or a human landing PRs in order — serializes
-  integration (doctrine: [../../doctrine/06-multi-actor.md](../../doctrine/06-multi-actor.md)).
-
-## Subagent role files
-
-Claude Code loads role definitions from files in the workspace — exactly what the pod
-doctrine needs: roles as versioned artifacts, not ad-hoc prompts.
-
-```markdown
----
-name: adversary
-description: Invoke at close of high-criticality units. Findings, never fixes.
----
-You attack the unit's acceptance criteria with runnable counterexamples (failing
-tests). Report every hypothesis — broken AND resisted. Failing to break does not
-certify correctness: say so, literally.
-```
-
-One file per role — adversary, blind reviewer, auditor (charters:
-[../../templates/roles.md](../../templates/roles.md)). Parallel roles get physical
-isolation with `git worktree`: separate working copies are what make blind review real.
-A subagent inherits the session's hooks — its product passes the same guard and the
-same verbs as the parent's.
-
-## What this substrate adds for free
-
-- The git server reinforces the guard with branch protection: even if the local hook
-  failed, push and merge stay blocked on the other side.
-- The commit history IS the history of records: every checkpoint is verifiable.
-- CI runs `verify` from clean on every integration: the gate trusts no machine.
-- Worktrees give parallel roles physically separate working copies: blindness enforced
-  by isolation, not politeness.
-
-The discipline's full case: [../../cases/software.md](../../cases/software.md). The same
-rules without a substrate: [../../templates/AGENTS.md](../../templates/AGENTS.md).
+See [portability and maintenance](../../doctrine/08-portability-and-maintenance.md),
+[adoption record](../../templates/adoption-record.md) and
+[verification record](../../templates/verification-record.md). The software case is
+[cases/software.md](../../cases/software.md); the core remains discipline-neutral.

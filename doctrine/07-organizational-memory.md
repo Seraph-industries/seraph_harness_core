@@ -8,9 +8,9 @@ failure patterns — is the mechanism that keeps it alive, in any discipline.
 
 ## Lesson = documentation + sensor
 
-**A promoted lesson ships its own detection check.** A memo is a hope; a check is a
-guarantee — the golden rule of 01, applied to memory. A lesson that cannot be re-checked
-is an anecdote, not organizational knowledge.
+**A promoted lesson ships its own detection check.** A repeatable check makes a lesson
+actionable within its declared coverage and known blind spots. Lessons that cannot yet
+be checked remain recorded observations rather than enforced catalog rules.
 
 Every catalog entry carries, at minimum:
 
@@ -116,12 +116,13 @@ closes where the contributor works, not in a report nobody reads.
 
 ## Tray zero
 
-Each cycle drains every tray to zero, so nothing re-enters the next harvest and cycles
-stay idempotent. Cleanup is destructive, so it obeys the boundary
+Each cycle offers cleanup of adjudicated entries so they do not re-enter the next
+harvest. Cleanup obeys the boundary
 ([02-human-agent-boundary.md](02-human-agent-boundary.md)): **machine-proposed,
-human-confirmed, per item.** Automation matches each local record against the
-adjudications and presents it with its verdict and reason; the human confirms each
-deletion, one at a time. The harness never deletes work without eyes on it.
+human-confirmed.** Match each entry to its adjudication and display its verdict and
+reason. The human may approve individual deletions or one explicitly listed batch.
+Unadjudicated entries and declined deletions remain; absent confirmation means keep.
+Record the approved scope before cleanup. The harness never silently erases findings.
 
 ## The catalog as guide
 

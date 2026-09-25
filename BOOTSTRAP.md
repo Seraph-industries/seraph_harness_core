@@ -1,7 +1,7 @@
 # BOOTSTRAP — agent setup protocol
 
 **You are an AI agent.** A human pointed you at this file because they want a workspace
-governed by Seraph Harness Core. Execute this protocol. If you cannot run tools where
+governed by the harness core. Execute this protocol. If you cannot run tools where
 you are, switch to **advisory mode**: walk the human through the same steps, one at a
 time, and verify each before the next.
 
@@ -14,8 +14,12 @@ time, and verify each before the next.
 
 ## 2. Assemble the workspace
 
-Copy from a local clone of this repo, or fetch each file raw from
-`https://raw.githubusercontent.com/Seraph-industries/seraph_harness_core/master/<path>`:
+Copy from the local checkout or downloaded snapshot containing this file. If only a
+link was supplied, use that repository as the source; do not assume a particular
+organization, repository name or default branch.
+
+For remote setup, resolve the selected branch to one commit first and fetch every file at that
+revision. If that is unavailable, use one downloaded snapshot. Do not mix revisions.
 
 | Source in this repo | Destination in the workspace |
 |---|---|
@@ -23,6 +27,8 @@ Copy from a local clone of this repo, or fetch each file raw from
 | `templates/AGENTS.md` | `AGENTS.md` |
 | `packs/<discipline>/PACK.md` | `harness/PACK.md` |
 | `templates/work-unit.md` | `logbooks/` (kept as the blank template) |
+| `templates/adoption-record.md` | `harness/ADOPTION.md` |
+| `templates/verification-record.md` | `harness/verification-record.md` |
 
 Also create `logbooks/closed/`. No pack for the discipline? Use
 `templates/discipline-contract.md` as `harness/CONTRACT.md` instead — the human fills
@@ -33,20 +39,27 @@ files that already exist — surface them and ask.
 
 ## 3. Fill the placeholders — then delete the template comments
 
-In `AGENTS.md`: the discipline, `__PACK_PATH__` = `harness/PACK.md`, `Profile: lite`.
+In `AGENTS.md`: the discipline, `__STATE_PATH__` = `STATE.md`, `Profile: lite`, and
+`__PACK_PATH__` = the actual contract path (`harness/PACK.md` or `harness/CONTRACT.md`).
 In `STATE.md`: `How this workspace records:` = the human's answer, `Live system: NO`
 unless the human says this output already reaches the real world — then `YES`, and the
 hardened rules apply from minute one.
 
+Complete the operator identity, checkpoint and active-unit references, or explicitly
+record that no unit exists yet. In `harness/ADOPTION.md`, record the copied revision,
+baseline/local ownership and which controls are manual. Templates alone install no
+automatic checks. Preserve contextual references to the core as revision-pinned links
+or plain source notes so copied files do not contain broken relative links.
+
 ## 4. Confirm the guard out loud
 
-Read `harness/PACK.md` and tell the human, in one short list, **what you will never do
+Read the actual contract path and tell the human, in one short list, **what you will never do
 in this workspace** (the guard) and what `verify` will check. This confirmation is the
-human's proof that you read the contract.
+human's opportunity to correct your understanding; it is not proof of enforcement.
 
 ## 5. Record the setup, then offer the first unit
 
-Make the first record ("workspace governed by Seraph Harness Core — setup"). Then
+Make the first record ("workspace governed by the harness core — setup"). Then
 offer to create the first work unit from `logbooks/work-unit.md` and start **stage 1:
 the spec** — nothing is produced before the acceptance criteria exist.
 

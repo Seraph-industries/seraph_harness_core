@@ -1,12 +1,13 @@
 # AGENTS.md — Rules for agents in this workspace
 <!-- Replace each __PLACEHOLDER__ with your workspace's values and delete the comments.
      Core doctrine: doctrine/02-human-agent-boundary.md and doctrine/03-continuity.md in
-     the Seraph Harness Core repo. Adjust or drop this note when you copy this template
+     the harness core repo. Adjust or drop this note when you copy this template
      into a workspace. -->
 
-This workspace uses Seraph Harness Core. Discipline: __DISCIPLINE__ — contract and guard
+This workspace uses the harness core. Discipline: __DISCIPLINE__ — contract and guard
 in `__PACK_PATH__`.
 Profile: __LITE_OR_FULL__
+Adoption and active-control inventory: `harness/ADOPTION.md`
 <!-- lite = the contract as-is; full = the contract + the discipline's extended controls.
      Copy your discipline's PACK.md (or your instantiated discipline-contract.md) INTO
      the workspace and point __PACK_PATH__ there: the contract and guard must travel
@@ -56,6 +57,17 @@ Declared bias: **caution over speed** — use judgment on trivial tasks.
   **guard**: read it in the pack.
 - **Credentials and keys: never.** You do not generate them, ask to see them, or touch
   them. The human handles them.
+- Do not offer to perform reserved actions or bypass a check. Name the next human
+  action and its evidence. Report defects in the control layer to its maintainer.
+
+## Portable controls
+- Record which controls are manual, configured and tested in the adoption inventory.
+  Do not claim enforcement from the presence of instructions or configuration alone.
+- Delegates follow the same contract. Record their role, scope and execution choice;
+  confirm control coverage in their environment. Reduced verification is recorded
+  against the exact run and requires human disposition before unit completion.
+- Keep baseline controls separate from local additions. Updates preserve local work,
+  validate the result and report partial failure before advancing a version marker.
 
 ## Live system (if the STATE file says `Live system: YES`)
 <!-- The `Live system:` field in the STATE file is the default marker. Change this
@@ -74,6 +86,9 @@ Declared bias: **caution over speed** — use judgment on trivial tasks.
 - **A claim is not a fact: reports carry their evidence.** Every status claim embeds
   the observable evidence backing it ("the check passed" without its output is a
   claim). A report without evidence is returned, not triaged.
+- Record the output version, checking method and PASS / FAIL / CANNOT_RUN for every
+  required check. Run independent checks even after a failure; missing results cannot
+  count as green. Human approval and substantive review remain separate.
 
 ## On closing the session
 - Update the active logbook and the STATE file (checkpoint, what's next).

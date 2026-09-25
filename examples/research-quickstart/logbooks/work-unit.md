@@ -4,7 +4,7 @@ Criticality: normal
 <!-- Optional: low | normal | high. How much a failure of this output would cost. The
      higher the blast radius, the more falsification before close — the profile sets
      the workspace floor; criticality scales this unit. Core doctrine:
-     doctrine/04-contract.md in the Seraph Harness Core repo. -->
+     doctrine/04-contract.md in the harness core repo. -->
 Autonomy: in-the-loop
 <!-- Optional: in-the-loop (the human approves each stage) | on-the-loop (the human
      monitors and can interrupt) | autonomous (the human reviews at close). The default

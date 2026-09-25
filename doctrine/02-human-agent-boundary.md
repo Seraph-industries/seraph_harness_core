@@ -81,11 +81,12 @@ Mechanical operations — bookkeeping, cleanup, generated records — obey two a
 
 1. **Automation never sweeps human work.** A mechanical operation records exactly what it
    produced: the artifacts it owns, listed, nothing more. Surprise artifacts found in its
-   path are surfaced and asked about, never silently absorbed; a failed operation leaves
-   the workspace exactly as it was.
-2. **Deletion of work products is human-confirmed, per item.** Automation may detect that
-   something became deletable and propose it with the reason; destroying it is a human
-   act, item by item. The harness never deletes work without eyes on it.
+   path are surfaced and asked about, never silently absorbed. On failure, restore what
+   the implementation can restore and report any partial changes; never claim rollback
+   or completion without evidence.
+2. **Deletion of work products is human-confirmed.** Automation lists each candidate
+   with its reason. The human confirms individual items or an explicitly enumerated
+   batch; absent confirmation means keep. Record the approved scope before acting.
 
 ## Credentials
 

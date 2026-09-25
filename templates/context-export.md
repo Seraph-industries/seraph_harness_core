@@ -7,7 +7,7 @@ Exported: __DATE__
      filled document as ONE block, written for the receiving agent — not for a human
      skimming. Save it where the next environment will find it; if the workspace exists,
      file it there and point the active logbook at it.
-     Core doctrine: doctrine/03-continuity.md in the Seraph Harness Core repo. Adjust or
+     Core doctrine: doctrine/03-continuity.md in the harness core repo. Adjust or
      drop this note when you copy this template into a workspace. -->
 
 ## 1. Goal

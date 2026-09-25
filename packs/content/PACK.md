@@ -43,6 +43,14 @@ Profiles: **lite** = this table as-is; **full** = the contract plus the discipli
 extended controls (brand identity and style control, second reading, legal validation) —
 any extended control that blocks must be deterministic.
 
+## Verification evidence and limits
+
+Record the output version, methods, results and evidence for each required verb. Use
+PASS, FAIL or CANNOT_RUN; incomplete results block completion. Run independent checks
+even when another fails. State which checks are manual and which are automated.
+Formatting and citation checks do not establish factual truth, audience suitability
+or legal adequacy; substantive human review remains a publication requirement.
+
 ## Guard (always-human actions)
 
 These actions are **always human**; the substrate blocks them or the protocol forbids them:

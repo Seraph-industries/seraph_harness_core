@@ -3,6 +3,11 @@
 This folder is a **complete, pre-filled workspace** for the research discipline. Nothing
 to configure: copy it and start.
 
+This trial is manual: no automatic guard or hook is installed. Its coverage and
+snapshot provenance are recorded in [harness/ADOPTION.md](harness/ADOPTION.md).
+Check results belong in the logbook with the output version and evidence; missing
+evidence is CANNOT_RUN, never green. Human review still judges the conclusions.
+
 ## Try it in three steps
 
 1. **Copy this folder** anywhere (rename it to your project). If you use git, run
@@ -35,6 +40,10 @@ in `CLOSED` (unit finished) or `PAUSED` (honest mid-flight); a session found
 An error that happens twice becomes a rule or a check — you fix the harness, not just
 the output.
 
-Full doctrine and other disciplines: the
-[Seraph Harness Core repo](https://github.com/Seraph-industries/seraph_harness_core).
-Setting up from scratch instead: point your agent at the repo's `BOOTSTRAP.md`.
+Full doctrine and other disciplines are in the core repository or snapshot from which
+you copied this folder. Its `GUIDE.md` explains the method. To set up another workspace
+from scratch, point your agent at that snapshot's `BOOTSTRAP.md`.
+
+Origin: [Seraph Harness Core](https://github.com/Seraph-industries/seraph_harness_core),
+originally developed at Seraph Industries. This example is independent of its business
+systems and can be adapted to your own research.

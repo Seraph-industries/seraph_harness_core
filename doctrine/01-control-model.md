@@ -21,14 +21,14 @@ Every control sorts along two axes:
 
 **The controls that enforce quality are deterministic. AI is never a gate.**
 
-A sensor that blocks is a guarantee; a reviewing agent is a hope. Inferential review
-advises — it flags, suggests, opines — but the verdict that stops an output that is not
-ready always comes from a deterministic **gate**: the **verbs** of your discipline's
+A tested sensor establishes its declared property, within its tested scope. It does
+not guarantee overall correctness. Inferential review advises; humans may withhold
+approval based on judgment. Automated **gates** implement the **verbs** of the discipline's
 **contract** ([04-contract.md](04-contract.md)).
 
 ## Gate design
 
-**Form blocks; bad news never blocks.** A gate validates the shape and integrity of a
+**Record admission: form blocks; bad news never blocks.** This gate validates the shape and integrity of a
 record — it parses, it is complete, it is attributed. It never punishes what the record
 says. A failing check honestly reported, work declared pending, a full queue of requests:
 all of these pass the gate and are surfaced loudly. **A gate that punishes honesty
@@ -42,6 +42,10 @@ blocks ([03-continuity.md](03-continuity.md)).
 **A gate returns one of three verdicts** — pass, fail with the reason, or cannot-run,
 which is red with the remedy printed. Unknown never passes. Full verdict semantics live
 in the contract ([04-contract.md](04-contract.md)).
+
+Record admission and output acceptance are different gates. An honest failed-check
+report may be saved and the session PAUSED; the unresolved failure still blocks unit
+completion and publication readiness.
 
 ## Sensor design
 
@@ -77,6 +81,10 @@ A sensor is worth exactly what its verdict is worth. Nine rules keep the verdict
    warning or logged, it reaches eyes, or it happened to no one.
 
 ## Quality-left
+
+Independent checks, shared record definitions and host activation tests are specified
+in [portability and maintenance](08-portability-and-maintenance.md). Installed controls
+are not automatically active controls.
 
 **The cheapest control runs as early as possible.** The chain, in any discipline:
 

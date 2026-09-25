@@ -16,8 +16,8 @@ Every verb is defined by five facts. If you cannot fill in all five, it is not a
    output, not "to review in general".
 3. **Deterministic or inferential.** Deterministic: same output, same verdict, always.
    Inferential: requires judgment (human or AI).
-4. **Blocking or advisory.** Only the deterministic can block. **AI is never a gate: a
-   sensor that blocks is a guarantee; a reviewing agent is a hope.**
+4. **Blocking or advisory.** Automated gates use deterministic checks. AI review is
+   advisory; a human can withhold approval based on substantive judgment.
 5. **Defined verdicts.** Exactly three outcomes: pass · fail, with the reason · cannot
    run — which is red, with the remedy printed. **Unknown never passes**: a verb that
    cannot determine its verdict fails explicitly; a check that dies mute manufactures a
@@ -30,8 +30,14 @@ Every verb is defined by five facts. If you cannot fill in all five, it is not a
 
 Each discipline defines `verify` as the aggregate verb: it runs every blocking verb. It
 is **the only required gate** of the core: no work unit closes, and no output is proposed
-for publication, without `verify` green. Everything else — inferential reviews, extended
-controls — adds value but never gates.
+for publication, without `verify` green. Extended deterministic controls join the
+aggregate when required by the profile. Human approval is separate; mechanical green
+does not authorize publication or certify the truth of the output.
+
+Run every independent check even if another fails, when safe; report dependent checks
+that cannot run. Missing or incomplete results are cannot-run and block completion.
+Keep evidence tied to the output version using the
+[verification record](../templates/verification-record.md).
 
 ## When a gate goes red
 
@@ -43,6 +49,10 @@ controls — adds value but never gates.
    the dates: in force passes with a loud notice, expired is red, undated is invalid.
    **An undated waiver is a rule deletion in disguise.** Active waivers print on every
    run; they are never invisible.
+
+   Validate each exception independently, including its scope and real expiry date.
+   A neighboring entry's approval cannot supply a missing field. Checking the record's
+   format does not authenticate its approver.
 
 ## How a discipline defines its contract
 

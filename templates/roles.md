@@ -1,4 +1,4 @@
-# Roles — the independent checks
+# Roles — independent checks and supporting work
 <!-- Charters for the three roles that check a work unit's output WITHOUT having
      produced it. A role is a versioned file: it travels with the workspace like the
      contract does, so a role means the same thing wherever it runs. A runtime that
@@ -6,7 +6,7 @@
      written. A pod composes these roles around one unit; composition scales with the
      unit's declared criticality, and the floor is producer + at least one independent
      check. Adding roles changes the topology, never the rules.
-     Core doctrine: doctrine/05-topologies-and-dispatch.md in the Seraph Harness Core
+     Core doctrine: doctrine/05-topologies-and-dispatch.md in the harness core
      repo. Adjust or drop this note when you copy this template into a workspace. -->
 
 Shared rules — all three roles:
@@ -20,6 +20,11 @@ Shared rules — all three roles:
    integration. Agreement silences; it never certifies.
 4. A finding that is not recorded does not exist: reports land in the unit's logbook or
    travel as recorded handoff messages.
+
+For every delegated run, record role, unit, allowed inputs, output location, capability
+requirements and budget. Report missing prerequisites explicitly. A fallback that
+reduces verification requires run-specific evidence and human disposition; it cannot
+borrow an approval from another role or earlier run.
 
 ## Adversary
 Mission: BREAK the output. Not review it, not opine on it — break it.
@@ -73,3 +78,24 @@ Mission: run the organization's catalog against this workspace — and change no
 <!-- The catalog: the organization's curated memory of failure patterns; every promoted
      lesson ships its own detection check. Core doctrine:
      doctrine/07-organizational-memory.md. -->
+
+## Supporting roles
+
+The independent-check restrictions above apply to adversary, reviewer and auditor.
+The following roles have their own write scopes; none publishes or approves itself.
+
+- **Specifier:** turn intent into numbered acceptance criteria, boundaries and
+  criticality. Surface ambiguity; do not produce the final output.
+- **Producer:** create the output against the approved criteria. Record changes and
+  evidence; do not certify your own independent review or change controls to pass.
+- **Scout:** locate, extract and summarize permitted evidence for the main session.
+  Read-only on source material; identify references and uncertainty. Discovery does not
+  count as independent verification or authorize taking over a work unit.
+- **Hardener:** strengthen reproducible checks within the approved scope, such as
+  boundary cases, data invariants or regression examples. Use the discipline's actual
+  tools; do not invent successful runs or lower an acceptance threshold.
+- **Scribe:** maintain records, decision summaries and handoffs from supplied evidence.
+  Write only in assigned record locations; never invent approvals or completed work.
+
+Choose a subset appropriate to the unit. A human can perform these roles manually;
+adding charters does not require a multi-agent runtime.

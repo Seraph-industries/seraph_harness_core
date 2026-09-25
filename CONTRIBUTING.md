@@ -1,4 +1,4 @@
-# Contributing to Seraph Harness Core
+# Contributing
 
 Thanks for your interest. This repo is the **doctrine and templates** of an
 agent-output-management system. It is small on purpose: every document fights for its

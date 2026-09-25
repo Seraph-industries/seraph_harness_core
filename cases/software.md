@@ -6,6 +6,10 @@ come from software, this page translates everything for you; if you come from an
 discipline, it shows how concretely the core lands when a discipline instantiates it for
 real.
 
+This is a possible implementation of the generalized core, not a statement that every
+source runtime implements every rule identically. Session-pausing semantics and
+adapter limits are documented in [EXTRACTION.md](../EXTRACTION.md).
+
 ## Core → software mapping
 
 | Core concept | In software |
@@ -133,14 +137,21 @@ In software that layer is:
   for freshly published versions, vulnerability and secret scanning. Installing a package
   goes through a dedicated verb, never through the package manager directly.
 - **Commit signing** and a message convention: every record is attributable and readable.
-- **Branch protection**: the server reinforces the guard — even if the agent dodged the
-  local hook, push and merge stay blocked on the other side, and only the coordinator
-  merges the default branch. **Assume any single control can fail**: local guard, server
-  rules and CI are independent layers, and that independence is why the boundary holds.
+- **Branch protection**: configured server rules can reinforce selected restrictions.
+  Verify permissions and bypasses: shared credentials do not distinguish human and
+  agent actions. Local guards, server policy and CI provide different coverage, which
+  must be tested rather than assumed.
 - **CI**: `verify` runs again, from clean, on every integration. The gate trusts nobody's
   machine.
 
 ## The lesson
+
+Updates keep shared pack rules separate from local overrides, validate the resulting
+configuration and retain the previous completed-version marker on failure. Independent
+scanners all report; incomplete results never become green. Runtime adapters need
+their own activation evidence, and generated role files must match their policy source.
+These mechanisms generalize in
+[portability and maintenance](../doctrine/08-portability-and-maintenance.md).
 
 None of that layer is in the core, and that is how it must be: these are failure modes
 *of software* (poisoned dependencies, overwritten branches, non-reproducible builds).

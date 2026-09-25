@@ -24,8 +24,8 @@ the two-strikes rule applies: when something fails, you harden your layer, not t
 Your layer splits again by ownership:
 
 - **Harness-owned files** — the method's docs, the role charters, the controls it ships —
-  are overwritten on every harness update. Never edit them in place: your edit dies at
-  the next update.
+  form the distributed baseline. Update them only after comparing provenance and local
+  changes; never silently overwrite an unexpected customization.
 - **Workspace-owned files** — state, logbooks, the filled-in contract, local
   configuration — are seeded once and never clobbered by an update. A drift sensor warns
   when a workspace-owned control is older than the one the harness now ships: a silent
@@ -47,8 +47,8 @@ workspace is not a control. The report enters the maintainer's two-strikes loop
 
 Two containment rules hold in every case:
 
-1. **A delegate inherits the workspace's guard.** A subagent runs inside your session,
-   under the same forbidden-action list, and its product passes the same verbs as yours.
+1. **A delegate is bound by the workspace's guard.** Confirm that its tool environment
+   actually applies the controls; technical inheritance is not assumed. Its product passes the same verbs as yours.
    Delegation never escapes the harness: nothing a delegate produces bypasses `verify`
    or the boundary.
 2. **Teams explore and review; a single accountable session produces.** Parallel agents
@@ -60,8 +60,9 @@ Two containment rules hold in every case:
 
 The core's recommended stance:
 
-1. **The orchestrator is the human + the deterministic sensors.** Never an AI agent
-   commanding agents: that stacks hopes where you need guarantees.
+1. **The human and deterministic controls govern the work.** A main agent session may
+   dispatch roles within an approved unit. It cannot grant itself authority over scope,
+   exceptions or publication.
 2. **Deterministic workers** = the verbs of your discipline's contract.
 3. **History worker** = the records + the logbooks: the system's memory is one more
    worker ([03-continuity.md](03-continuity.md)).
@@ -107,11 +108,14 @@ an existing role.
 
 | Role | Trades in | Never |
 |---|---|---|
-| **spec-writer** | intent turned into numbered acceptance criteria plus a declared criticality | produces the output |
+| **specifier (spec-writer)** | intent turned into numbered acceptance criteria plus a declared criticality | produces the output |
 | **producer** | the output, built against the criteria | closes the unit |
 | **adversary** | falsification: concrete counterexamples against the criteria and the policy tables, worked through a declared hypothesis budget — every hypothesis reported, broken or resisted; every break becomes a permanent regression check | fixes anything; certifies — failing to break proves nothing, and its report says so |
 | **blind reviewer** | comparison of result against criteria — compliance per criterion with its exact location, discrepancies, out-of-scope changes — seeing only the spec and the result, never the producer's narrative | gates — its approval certifies nothing |
 | **auditor** | a read-only run of the organization's catalog ([07-organizational-memory.md](07-organizational-memory.md)) with a verdict and reason per entry; a missing target is "cannot run", never a guess | fixes findings — each becomes a work unit a human prioritizes |
+| **scout** | read-only discovery with source references and uncertainty | takes over the unit or certifies findings |
+| **hardener** | stronger reproducible checks within approved scope | weakens acceptance thresholds |
+| **scribe** | evidence-bound records and handoffs | invents approvals or completed work |
 
 ### Composition
 
@@ -225,7 +229,7 @@ at the autonomous position, always logged, and **never at high criticality**.
 |---|---|---|---|
 | Create something new (a module, a report, a process design) | single, interactive | in-the-loop | the highest for planning; producing can be cheaper |
 | Mechanical transformation guided by sensors (migrate, normalize, reformat) | subagents / asynchronous | on-the-loop | standard |
-| Audit / analysis of what exists | an evaluator agent that emits a report | reviews the report | standard; the cheapest for routing |
+| Audit / analysis of what exists | an evaluator agent that emits a report | reviews the report | sufficient for judgment; cheaper execution only where results are independently validated |
 | Parallel exploration of options | fan-out (2–4) that competes; the human picks | on-the-loop | standard |
 
 ### Delegation economy
@@ -237,7 +241,9 @@ best. Never launch your top tier to find a file. Two asymmetries are fixed:
 1. **Spec and review get the highest capability available.** A spec error is the most
    expensive error in the system, and a checker weaker than the generator misses
    exactly what the generator got wrong. **Reviewer and adversary run at the producer's
-   tier or higher, never lower.**
+   tier or higher by default.** Any declared lower-capability availability fallback is
+   a degraded run, requiring recorded compensating evidence and human disposition;
+   it must not be reported as equivalent review.
 2. **Machine-validated work can run cheap.** A role whose output a deterministic gate
    fully validates may use the cheapest capability that passes it.
 
@@ -246,3 +252,9 @@ exploration (the fan-out row above): its 2–4 candidates never integrate — th
 and the human keeps one. Across the workspace, **diminishing returns set in beyond 4–6
 parallel agents**: do not chase parallelism for its own sake — every extra agent adds
 coordination, and you pay for the coordination.
+
+These numerical limits are starting defaults, not universal performance claims. Record
+the workspace's actual limits and enforce them where the chosen tool permits.
+Keep role charters neutral to vendors; map them to execution choices in local policy.
+Read [portability and maintenance](08-portability-and-maintenance.md) for scoped
+fallback records, observable execution and protection against approval reuse.

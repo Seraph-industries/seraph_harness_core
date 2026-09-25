@@ -1,7 +1,7 @@
 # WORKSPACE STATE — read FIRST when resuming
 <!-- Portable memory of the workspace. A new chat, machine or person reads THIS plus the
      active logbook and continues. It does NOT re-read the whole workspace.
-     Core doctrine: doctrine/03-continuity.md in the Seraph Harness Core repo. Adjust or
+     Core doctrine: doctrine/03-continuity.md in the harness core repo. Adjust or
      drop this note when you copy this template into a workspace. -->
 
 Updated: __DATE__ · by: __AUTHOR__
@@ -88,4 +88,4 @@ mid-unit. Read the checkpoint and "What's next", set `STATE: IN_PROGRESS`, and c
      Multi-actor workspaces split THIS file: one state file per work stream (owner,
      status, lease, scope) plus a coordinator-owned project state; any consolidated
      view is GENERATED, never a source. Core doctrine: doctrine/06-multi-actor.md in
-     the Seraph Harness Core repo. -->
+     the harness core repo. -->

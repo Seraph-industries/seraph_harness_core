@@ -4,7 +4,7 @@ Date: __DATE__ · Status: proposed
      future: an architecture choice, a methodology change, a boundary contract's
      direction, a conflict verdict. Status values: proposed | accepted | superseded by
      __NNNN__.
-     Core doctrine: doctrine/06-multi-actor.md in the Seraph Harness Core repo. Adjust
+     Core doctrine: doctrine/06-multi-actor.md in the harness core repo. Adjust
      or drop this note when you copy this template into a workspace. -->
 
 ## Context

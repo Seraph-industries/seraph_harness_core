@@ -4,7 +4,7 @@ Unit: __UNIT__ · Owner: __OWNER_HANDLE__ · Opened: __DATE__
      serving people, a process switched on, findings published. `verify` proved the
      OUTPUT; this review walks the three fronts around it that the contract cannot see.
      Per item: file dated evidence in the workspace and reference it on the line.
-     Core doctrine: doctrine/02-human-agent-boundary.md in the Seraph Harness Core repo.
+     Core doctrine: doctrine/02-human-agent-boundary.md in the harness core repo.
      Adjust or drop this note when you copy this template into a workspace. -->
 
 Rules of the walk:

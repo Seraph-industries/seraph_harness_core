@@ -1,8 +1,9 @@
 # AGENTS.md — Rules for agents in this workspace
 
-This workspace uses Seraph Harness Core. Discipline: research — contract and guard
+This workspace uses the harness core. Discipline: research — contract and guard
 in `harness/PACK.md`.
 Profile: lite
+Adoption and active-control inventory: `harness/ADOPTION.md`
 
 **Reading order**: the STATE file → the active work unit's logbook → the pack. Then work.
 
@@ -48,6 +49,16 @@ Declared bias: **caution over speed** — use judgment on trivial tasks.
   **guard**: read it in the pack.
 - **Credentials and keys: never.** You do not generate them, ask to see them, or touch
   them. The human handles them.
+- Do not offer to perform reserved actions or bypass a check. Name the next human
+  action and its evidence. Report defects in the control layer to its maintainer.
+
+## Portable controls
+- This trial uses manual checks. No automated guard or closure hook is installed.
+  Record any future adapter and activation evidence in `harness/ADOPTION.md`.
+- Delegates follow the same contract. Record role, scope and actual execution choice;
+  missing capabilities or reduced verification stay visible in the logbook.
+- Preserve local research criteria during updates. Compare the old baseline, new
+  baseline and local changes before replacing a pack.
 
 ## Live system (if the STATE file says `Live system: YES`)
 - The output already reaches the real world: hardened rules. You **propose**, the human
@@ -64,6 +75,9 @@ Declared bias: **caution over speed** — use judgment on trivial tasks.
 - **A claim is not a fact: reports carry their evidence.** Every status claim embeds
   the observable evidence backing it ("the check passed" without its output is a
   claim). A report without evidence is returned, not triaged.
+- Record the output version, method and PASS / FAIL / CANNOT_RUN for each required
+  check. Missing evidence blocks completion. A source link proves accessibility,
+  not truth; human review assesses whether sources support the conclusions.
 
 ## On closing the session
 - Update the active logbook and the STATE file (checkpoint, what's next).

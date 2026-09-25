@@ -7,7 +7,16 @@ from a software-development harness used in production, with everything
 software-specific stripped away: what remains is the part that works the same whether
 your agents write code, reports, research, or operational drafts.
 
-**New here? Start with [GUIDE.md](GUIDE.md)** — one page: how the whole system works.
+Originally conceived and developed at **Seraph Industries**, this open-source core
+generalizes that experience for anyone's discipline or organization. Its operational
+rules and templates require no Seraph-specific systems, accounts or business processes.
+The source repository is [Seraph Harness Core](https://github.com/Seraph-industries/seraph_harness_core).
+
+**New here? Start with [GUIDE.md](GUIDE.md)** — how the whole system works.
+
+This is a protocol with templates, not an installed enforcement engine. It supports
+manual use and tool-specific adapters. The generalized source baseline is v2.5.3;
+see [extraction scope](EXTRACTION.md) and [changes](CHANGELOG.md).
 
 ## Why this exists
 
@@ -37,25 +46,27 @@ with structure — the same structure that made industrial quality control work:
 ## What's inside
 
 ```
-doctrine/      The seven core documents: control, boundary, continuity, contract,
-               topologies & dispatch, multi-actor, organizational memory
+doctrine/      Eight core documents: control, boundary, continuity, contract,
+               topologies & dispatch, multi-actor, organizational memory,
+               portability & maintenance
 templates/     Drop-in files for a governed workspace: STATE.md, AGENTS.md,
                work-unit.md, discipline-contract.md, decision-record.md,
-               context-export.md, go-live-readiness.md, roles.md
+               context-export.md, go-live-readiness.md, roles.md,
+               adoption-record.md, verification-record.md
 packs/         The contract instantiated per discipline:
                  content/     documents, reports, proposals
                  research/    analysis and sourced reports
                  operations/  reconciliations, processes, back-office
 cases/         software.md — the software discipline as a worked case of the core
-reference/     git-claude-code/ — one executable substrate (git + agent hooks);
+reference/     git-claude-code/ — adapter design reference (not an installer);
                the core depends on no substrate
 ```
 
 ## Try it in five minutes
 
-- **With your agent** (recommended): open your AI agent in an empty folder and say:
-  *"Fetch `https://raw.githubusercontent.com/Seraph-industries/seraph_harness_core/master/BOOTSTRAP.md`
-  and follow it."* The agent asks you three questions and assembles the governed
+- **With your agent** (recommended): download this repository, open your agent in
+  the downloaded folder and say: *"Read BOOTSTRAP.md and set up a separate workspace
+  for my activity."* The agent asks you three questions and assembles the governed
   workspace itself — [BOOTSTRAP.md](BOOTSTRAP.md) is written for it.
 - **By hand**: copy [examples/research-quickstart/](examples/research-quickstart/) — a
   complete, pre-filled research workspace with its first work unit already specced —
@@ -77,6 +88,11 @@ reference/     git-claude-code/ — one executable substrate (git + agent hooks)
    work stage by stage. **One stage = one record.** The human publishes.
 
 ## Non-negotiables
+
+Updates preserve local work and expose missing controls; see
+[portability and maintenance](doctrine/08-portability-and-maintenance.md).
+Mechanical checks validate declared properties. Human review decides whether the
+result is sound and appropriate to publish.
 
 - The agent **records** progress but **never publishes** — sending, deploying, paying,
   signing and merging are human actions.

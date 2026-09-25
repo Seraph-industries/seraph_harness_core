@@ -4,7 +4,7 @@
      block → what requires judgment stays as inferential review that advises, never
      gates. You standardize verbs, not tools: implementation varies per substrate; the
      interface does not.
-     Core doctrine: doctrine/04-contract.md in the Seraph Harness Core repo. Adjust or
+     Core doctrine: doctrine/04-contract.md in the harness core repo. Adjust or
      drop this note when you copy this template into a workspace. -->
 
 ## Nature of the output
@@ -32,6 +32,17 @@ __OUTPUT__
 <!-- The aggregate verb: runs all blocking verbs. Without green, a work unit does not
      close. -->
 `verify` = `__verb_1__` + `__verb_2__` + ...
+
+## Evidence and implementation
+- Output version and evidence location: __RECORDING_CONVENTION__
+- Checking method and prerequisites for each verb: __METHODS__
+- Manual controls and installed, tested automation: __COVERAGE__
+- Human judgment required beyond mechanical checks: __REVIEW_SCOPE__
+
+Every required check reports PASS, FAIL or CANNOT_RUN. Missing prerequisites and
+incomplete results block completion. Independent checks still run after a failure.
+Exceptions identify scope, approving human, reason and valid expiry date. A formatted
+approval record does not by itself authenticate the approver.
 
 ## Guard (always-human actions)
 <!-- Explicit list: which actions are ALWAYS human in this discipline. E.g.: sending to

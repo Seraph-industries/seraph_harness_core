@@ -35,6 +35,15 @@ Profiles: **lite** = the table as-is; **full** = add your operation's extended c
 (cross-period audit, per-amount limits, double reconciliation) — any extended control
 that blocks must be deterministic.
 
+## Verification evidence and limits
+
+Record the period, output version, methods, results and evidence for every required
+verb. PASS, FAIL and CANNOT_RUN are distinct; missing evidence blocks completion.
+A failed reconciliation must not hide a missing approval. Check exceptions and
+approval scope independently for this period; never reuse another period's sign-off.
+Record manual versus automated coverage. A complete approval trail is not proof of
+signer identity or authorization, which the human must confirm before acting.
+
 ## Guard (always-human actions)
 
 The agent **prepares**: draft entries, orders, communications, reconciliations, action

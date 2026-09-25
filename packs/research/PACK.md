@@ -18,8 +18,8 @@ It is worth something only if it can be trusted without redoing it. Failure mode
 6. A weak argument: confirmation bias, alternatives never considered.
 
 Modes 1–5 are objective → deterministic sensors that block. Mode 6 calls for judgment →
-inferential review that advises. **A sensor that blocks is a guarantee; a reviewing agent
-is a hope. AI is never a gate**
+inferential review that advises. **Mechanical checks establish only their declared
+properties; human review judges source support and argument quality**
 ([doctrine/01-control-model.md](../../doctrine/01-control-model.md)).
 
 ## Contract
@@ -46,6 +46,17 @@ record; `sources`, `calculations` and `coverage` wait for full `verify` at stage
 
 Profiles: **lite** = the table as-is; **full** = adds an independent counter-analysis
 (another person or agent, advisory) and integrity checks on the archived raw data.
+
+## Verification evidence and limits
+
+For each run, record the output version, inputs, checking method, result and evidence.
+Each required verb reports PASS, FAIL or CANNOT_RUN. An inaccessible source or missing
+dataset cannot count as green. Run independent checks despite other failures and
+preserve their results. Record manual versus automated coverage explicitly.
+
+Labels and citations can be checked mechanically; their correctness and whether a source
+supports a claim require substantive review. `coverage` verifies recorded answers or
+OPEN markers, not that an answer is adequate. Human review can withhold publication.
 
 ## Guard (always-human actions)
 
